@@ -13,18 +13,12 @@ def frequency(I):
     maxlist = [int(key) for key, value in r.items() if value == maximum]
     return ((sorted(minlist), sorted(maxlist)))
 
-l = [(1,2), (3,2)]
-r = []
-for (i,j) in l:
-    for (m,n) in l:
-        # print(i, j, m, n)
-        if ( (i, j) != (m, n) ):
-            if i == m and not( r.__contains__((j,n))) and not(r.__contains__((n,j))):
-               r.append(sorted(j, n))
-            elif i == n and not( r.__contains__((j,m))) and not(r.__contains__((m,j))):
-                r.append(sorted(j, m))
-            elif j == m and not( r.__contains__((i,n))) and not(r.__contains__((n,i))):
-                r.append(sorted(i, n))
-            elif j == n and not( r.__contains__((i,m) )) and not(r.__contains__((m,i))):
-                r.append((i, m))
-print(r)
+
+def onehop(l):
+    r = []
+    for (i, j) in l:
+        for (m, n) in l:
+            if (i, j) != (m, n):
+                if i != n and j == m and not(r.__contains__((i, n))):
+                    r.append((i, n))
+    return sorted(r)
