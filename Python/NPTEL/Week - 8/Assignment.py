@@ -1,23 +1,33 @@
-#noofcolumns = int(input())
-M = [[8, 6, 2, 3], [9, 7, 1, 2]]
-#M.append(list(input().split(' ')))
-#M.append(list(input().split(' ')))
+nc = int(input())
+m = list()
+m.append(list(map(int, input().strip().split(' '))))
+m.append(list(map(int, input().strip().split(' '))))
 
-#print(noofcolumns)
-print(M)
-o1 = 0
-o2 = 0
 r = []
-for i in range(0, 4):
-    if i == 0:
-        r.append([1, abs(M[0][0]-M[0][1]) + abs(M[1][0]-M[1][1])])
-        r.append([0, abs(M[0][0] - M[1][0])])
-        print(r)
+fr = []
+rl = []
+ni = len(m[0]) - 1
+
+fr.append([1, abs(m[0][0] - m[0][1]) + abs(m[1][0] - m[1][1])])
+fr.append([0, abs(m[0][0] - m[1][0])])
+for i in range(1, nc):
+    try:
+        r = fr.copy()
+        fr.clear()
+        for item in list(filter(lambda x: x[0] < ni, r)):
+            k = item[0]  # Prev Position
+            j = item[1]  # Previous Sum
+            fr.append([k + 1, abs(m[0][k + 1] - m[1][k + 1]) + j])
+            if k + 2 <= ni:
+                fr.append([k + 2, abs(m[0][k + 1] - m[0][k + 2]) + abs(m[1][k + 1] - m[1][k + 2]) + j])
+            r.clear()
+        for l in [x[1] for x in fr if x[0] == ni]:
+            rl.append(l)
+    except MemoryError:
+        print(fr)
+        break
     else:
-        for item in r:
-            k = item[0]
-            print(k)
-            if (k >= i) and (k+2 < 3):
-                r.append([k+2, abs(M[0][k+1]-M[0][k+2]) + abs(M[1][k+1]-M[1][k+2])])
-                r.append([k+1, abs(M[0][k + 1] - M[1][k + 1])])
-                print(r)
+        break
+
+
+print(max(rl))
